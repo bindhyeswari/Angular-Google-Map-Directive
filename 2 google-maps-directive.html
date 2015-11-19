@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="utilities/google-map-directive.js"></script>
+    <script>
+
+        angular.module('myApp', ['gllUtilities']);
+
+        angular.controller('MyController', function ($scope) {
+            $scope.data = 'Loading google maps directive ... ';
+        });
+
+    </script>
+
+</head>
+<body>
+    <div ng-controller="MyController">
+        {{data}}
+        <div map></div>
+    </div>
+</body>
+</html>

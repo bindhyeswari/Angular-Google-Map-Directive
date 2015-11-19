@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="base.css"/>
+    <title>Demo</title>
+    <script src="bower_components/angular/angular.js"></script>
+    <script type="text/ng-template" id="_hello.html">
+        <h1>Hello World Directive</h1>
+        <div>Testing ... </div>
+    </script>
+    <script>
+        var app = angular.module('myApp', []).controller('MyController', function ($scope) {
+            $scope.message = 'Hello';
+            $scope.arr = [1,2,3,4];
+        });
+
+        app.directive('hello', function ($compile) {
+            return {
+                templateUrl: '_hello.html',
+                compile: function (element, attrs) {
+                    console.log(element);
+
+                    var div = angular.element('<div>');
+
+                    div.html('{{message}}<ul><li ng-repeat="num in arr">{{num}}</li></ul>');
+
+                    element.append(div);
+
+
+                    return {
+                        pre: function () {
+
+                        },
+                        post: function (scope, element, attrs) {
+                            // postlink function link:
+                            console.log(scope.message);
+                            console.log(element);
+
+                            // the element is already compiled and linked to the scope
+
+                            // create a template function - by invoking $compile on a template
+                            // invoke the template function with the scope
+                            // which will return an element
+                            // insert the element into the parent
+
+                            var templateFn = $compile('<div>{{message}}<ul><li ng-repeat="num in arr">{{num}}</li></ul></div>');
+                            var new_element = templateFn(scope);
+                            element.append(new_element);
+                            // not recommended - do it during the compile phase
+
+                        }
+                    };
+                }
+            };
+        });
+    </script>
+</head>
+<body>
+    <div ng-controller="MyController" class="controller">
+        {{message}}
+
+        <div hello class="info"></div>
+    </div>
+</body>
+</html>
